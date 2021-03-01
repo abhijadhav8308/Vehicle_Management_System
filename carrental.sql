@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2018 at 04:02 AM
--- Server version: 10.1.31-MariaDB
--- PHP Version: 7.2.4
+-- Generation Time: Mar 01, 2021 at 01:43 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,7 +31,7 @@ CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `UserName` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -45,71 +44,6 @@ INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `car`
---
-
-CREATE TABLE `car` (
-  `name` varchar(20) NOT NULL,
-  `expense` int(11) NOT NULL,
-  `credit` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `car`
---
-
-INSERT INTO `car` (`name`, `expense`, `credit`) VALUES
-('Huracan Spyder ', 10000, 12000),
-('Audi R8', 8000, 10000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `report`
---
-
-CREATE TABLE `report` (
-  `name` varchar(40) NOT NULL,
-  `expense` int(11) NOT NULL,
-  `credit` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `report`
---
-
-INSERT INTO `report` (`name`, `expense`, `credit`) VALUES
-('Mahableshwar-Satara', 500, 1000),
-('Satara-Karad', 1000, 1000),
-('Satara-Pune', 300, 500),
-('Pune-Mumbai', 700, 1000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tblcontactusquery`
---
-
-CREATE TABLE `tblcontactusquery` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `EmailId` varchar(120) DEFAULT NULL,
-  `ContactNumber` char(11) DEFAULT NULL,
-  `Message` longtext,
-  `PostingDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tblcontactusquery`
---
-
-INSERT INTO `tblcontactusquery` (`id`, `name`, `EmailId`, `ContactNumber`, `Message`, `PostingDate`, `status`) VALUES
-(1, 'Anuj Kumar', 'webhostingamigo@gmail.com', '2147483647', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', '2017-06-18 10:03:07', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbldriver`
 --
 
@@ -118,7 +52,7 @@ CREATE TABLE `tbldriver` (
   `DriverName` varchar(100) NOT NULL,
   `MobileNo` bigint(10) NOT NULL,
   `VehicleNoReg` varchar(14) NOT NULL,
-  `LicNo` bigint(16) NOT NULL,
+  `LicNo` varchar(15) NOT NULL,
   `LicExpireDate` date NOT NULL,
   `NID` bigint(12) NOT NULL,
   `PresentAdd` text NOT NULL,
@@ -131,7 +65,11 @@ CREATE TABLE `tbldriver` (
 --
 
 INSERT INTO `tbldriver` (`id`, `DriverName`, `MobileNo`, `VehicleNoReg`, `LicNo`, `LicExpireDate`, `NID`, `PresentAdd`, `PermanentAdd`, `JoinDate`) VALUES
-(2, 'Akash ', 123122, '2131', 3123321, '2018-05-07', 33213, '3ghfhf', 'fs213243', '2018-05-08');
+(4, 'Ram Dubey', 8274738324, '12', 'MH1120394343765', '2035-07-18', 348874758691, 'Hinjawadi, Pimpri-Chinchwad', 'Hinjawadi, Pimpri-Chinchwad', '2020-06-23'),
+(5, 'Ramu Chauhan', 9284735678, '18', 'MH1120196789764', '2035-03-28', 874324732492, 'Wai, Satara', 'Wai, Satara', '2019-06-28'),
+(6, 'Raju ', 9689384883, '15', 'MH1120193287434', '2021-02-17', 324327432472, 'Mulshi,Pune', 'Mulshi, Pune', '2020-01-10'),
+(7, 'Raju More', 9689384883, '15', 'MH1120194873874', '2021-02-17', 324327432472, 'Mulshi,Pune', 'Mulshi, Pune', '2020-01-10'),
+(8, 'Baburao', 8324324326, '21', 'MH1120193746764', '2020-07-08', 787457234237, 'Panchgani, Satara', 'Panchgani, Satara', '2020-10-20');
 
 -- --------------------------------------------------------
 
@@ -140,6 +78,7 @@ INSERT INTO `tbldriver` (`id`, `DriverName`, `MobileNo`, `VehicleNoReg`, `LicNo`
 --
 
 CREATE TABLE `tblexpense` (
+  `id` int(5) NOT NULL,
   `Vehicle_No` varchar(14) NOT NULL,
   `Expense_Type` varchar(20) NOT NULL,
   `Location` varchar(40) NOT NULL,
@@ -151,18 +90,14 @@ CREATE TABLE `tblexpense` (
 -- Dumping data for table `tblexpense`
 --
 
-INSERT INTO `tblexpense` (`Vehicle_No`, `Expense_Type`, `Location`, `Amount`, `Date`) VALUES
-('MH11AJ4179', '4', 'Satara', 80, '2018-05-17'),
-('MH11AJ4179', '4', 'Satara', 80, '0000-00-00'),
-('MH11AJ4179', '4', 'Satara', 80, '0000-00-00'),
-('MH11AJ4179', '4', 'Satara', 880, '0000-00-00'),
-('MH11AJ4179', '', '', 0, '0000-00-00'),
-('MH11AJ7077', '2', 'Panchgani', 150, '2018-05-07'),
-('MH11AJ7077', '2', 'Panchgani', 150, '2018-05-07'),
-('MH11AJ7077', '4', 'Satara', 200, '2018-05-17'),
-('1234', '2', 'WAI', 50, '2018-05-17'),
-('1', '3', 'assadasdasd', 1232131, '2018-05-19'),
-('123123', '2', 'sadasdassdas', 1223, '2018-05-19');
+INSERT INTO `tblexpense` (`id`, `Vehicle_No`, `Expense_Type`, `Location`, `Amount`, `Date`) VALUES
+(1, 'MH11AJ4179', 'Financing', 'Satara', 80, '2018-05-17'),
+(2, 'MH11AB1204', 'Parking', 'Satara', 80, '2020-07-14'),
+(3, 'MH11AB4567', 'Parking', 'Satara', 80, '2020-10-20'),
+(4, 'MH11HD5216', 'Fine', 'Satara', 880, '2020-09-01'),
+(6, 'MH11AB8724', 'Toll', 'Panchgani', 150, '2018-05-07'),
+(7, 'MH11BA6568', 'Toll', 'Panchgani', 150, '2018-05-07'),
+(8, 'MH11HD5566', 'Fine', 'Satara', 200, '2018-05-17');
 
 -- --------------------------------------------------------
 
@@ -179,6 +114,17 @@ CREATE TABLE `tblfuel` (
   `total_amount_of_fuel` int(11) NOT NULL,
   `average_of_vehicle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblfuel`
+--
+
+INSERT INTO `tblfuel` (`id`, `date`, `vehicle_no`, `rate`, `fuel_type`, `total_amount_of_fuel`, `average_of_vehicle`) VALUES
+(2, '2020-06-09', '16', 80, 'Petrol', 30, 30),
+(3, '2020-05-05', '12', 78, 'Diesel', 20, 20),
+(4, '2020-07-21', '14', 70, 'CNG', 25, 50),
+(5, '2020-08-06', '15', 80, 'Petrol', 40, 20),
+(6, '2020-08-01', '15', 44, 'CNG', 10, 80);
 
 -- --------------------------------------------------------
 
@@ -206,28 +152,6 @@ INSERT INTO `tblpages` (`id`, `PageName`, `type`, `detail`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltestimonial`
---
-
-CREATE TABLE `tbltestimonial` (
-  `id` int(11) NOT NULL,
-  `UserEmail` varchar(100) NOT NULL,
-  `Testimonial` mediumtext NOT NULL,
-  `PostingDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbltestimonial`
---
-
-INSERT INTO `tbltestimonial` (`id`, `UserEmail`, `Testimonial`, `PostingDate`, `status`) VALUES
-(1, 'test@gmail.com', 'Test Test', '2017-06-18 07:44:31', 1),
-(2, 'test@gmail.com', '\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam nibh. Nunc varius facilis', '2017-06-18 07:46:05', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbltour`
 --
 
@@ -250,6 +174,14 @@ CREATE TABLE `tbltour` (
   `TotalAmount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbltour`
+--
+
+INSERT INTO `tbltour` (`id`, `Date`, `CusName`, `CusMobNo`, `CusEmail`, `CusGender`, `CusAdd`, `SouPlace`, `desPlace`, `Distance`, `Amoperkm`, `StayChar`, `NoOfDay`, `NoOfNight`, `DriverName`, `TotalAmount`) VALUES
+(1, '2020-07-07', 'Abhishek Jadhav', 8329705617, 'abhijadhav8308@gmail.com', 'male', 'Sai Sarada PG Amenity, Sakhare Vasti Rd, Hinjawadi Village, Hinjawadi, Pimpri-Chinchwad', 'Satara', 'Mahabaleshwar', 60, 15, 300, 2, 1, '8', 1200),
+(2, '2020-06-15', 'Abhishek Surse', 8777823738, 'abhisurse@gmail.com', 'male', 'Hinjewadi Phase 1,Pune', 'Pune', 'Satara', 120, 8, 0, 1, 0, '7', 960);
+
 -- --------------------------------------------------------
 
 --
@@ -266,8 +198,8 @@ CREATE TABLE `tblusers` (
   `Address` varchar(255) DEFAULT NULL,
   `City` varchar(100) DEFAULT NULL,
   `Country` varchar(100) DEFAULT NULL,
-  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+  `RegDate` timestamp NULL DEFAULT current_timestamp(),
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -301,11 +233,16 @@ CREATE TABLE `tblvehicles` (
 --
 
 INSERT INTO `tblvehicles` (`id`, `VehicleName`, `VehicleType`, `VehicleNo`, `FuelType`, `RegDate`, `SeatingCap`) VALUES
-(7, 'suzuki', 'Convertible', 'MH 11 BF 1989', 'Petrol', '2018-05-15', 4),
-(8, 'Honda', 'Crossover', 'MH 11 CG 6167', 'Diesel', '2018-05-09', 7),
-(9, 'BMW', 'Luxury', 'MH 11 FG 7755', 'Petrol', '2018-05-16', 4),
-(10, 'Renalt', 'Hatchback', 'MH 11 BE 3244', 'Petrol', '2018-05-01', 5),
-(11, 'Suzuki', 'Convertible', 'MH 11 GH 2345', 'Petrol', '2018-05-18', 4);
+(12, 'Tata Harrier', 'SUV', 'MH11AJ8308', 'Diesel', '2020-06-22', 7),
+(13, 'Tata Nexon', 'Hatchback', 'MH11AB1204', 'Petrol', '2020-04-10', 5),
+(14, 'Tata HBX', 'Hatchback', 'MH11AB4567', 'Petrol', '2020-09-23', 5),
+(15, 'Hyundai i20', 'Hatchback', 'MH11BA9752', 'Diesel', '2020-11-26', 5),
+(16, 'Kia Seltos', 'Sedan', 'MH11HD5216', 'Diesel', '2021-01-01', 5),
+(17, 'Maruti Swift', 'Hatchback', 'MH11AB8724', 'Diesel', '2020-08-04', 5),
+(18, 'Toyota Fortuner', 'SUV', 'MH11BA6568', 'Diesel', '2020-08-12', 7),
+(19, 'Mahindra Scorpio', 'Crossover', 'MH11AJ8976', 'Diesel', '2020-07-20', 7),
+(20, 'Mahindra Bolero', 'Crossover', 'MH11BA6324', 'Diesel', '2021-02-01', 7),
+(21, 'Maruti Ertiga', 'Crossover', 'MH11HD5566', 'CNG', '2020-11-17', 7);
 
 --
 -- Indexes for dumped tables
@@ -318,15 +255,15 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tblcontactusquery`
---
-ALTER TABLE `tblcontactusquery`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbldriver`
 --
 ALTER TABLE `tbldriver`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblexpense`
+--
+ALTER TABLE `tblexpense`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -339,12 +276,6 @@ ALTER TABLE `tblfuel`
 -- Indexes for table `tblpages`
 --
 ALTER TABLE `tblpages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbltestimonial`
---
-ALTER TABLE `tbltestimonial`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -376,22 +307,22 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tblcontactusquery`
---
-ALTER TABLE `tblcontactusquery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `tbldriver`
 --
 ALTER TABLE `tbldriver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `tblexpense`
+--
+ALTER TABLE `tblexpense`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tblfuel`
 --
 ALTER TABLE `tblfuel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblpages`
@@ -400,16 +331,10 @@ ALTER TABLE `tblpages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `tbltestimonial`
---
-ALTER TABLE `tbltestimonial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `tbltour`
 --
 ALTER TABLE `tbltour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tblusers`
@@ -421,7 +346,7 @@ ALTER TABLE `tblusers`
 -- AUTO_INCREMENT for table `tblvehicles`
 --
 ALTER TABLE `tblvehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
